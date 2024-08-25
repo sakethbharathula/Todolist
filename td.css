@@ -6,72 +6,74 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Aligns content to start at the top */
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-attachment: fixed;
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-top: 20px; /* Provides some space from the top */
+    margin-top: 20px;
     width: 100%;
-    max-width: 800px; /* Increased max-width of container */
+    max-width: 800px;
+    padding: 0 15px; /* Padding to prevent content from touching screen edges */
 }
 
 .input-group-box, .tasks-container, .filter-container-box {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.15); /* Slightly transparent background */
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 800px; /* Increased max-width */
     margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
 .input-group {
     display: flex;
-    align-items: center;
-    width: 100%; /* Ensure input group takes full width */
+    width: 100%;
+    flex-direction: row; /* Change to row for larger screens */
+    flex-wrap: wrap; /* Allow items to wrap on small screens */
 }
 
 #taskInput {
-    flex: 2; /* Adjusted flex value for a wider input */
-    width: calc(100% - 150px); /* Adjusted width to leave space for the button */
-    padding: 20px; /* Increased padding */
+    width: calc(100% - 140px); /* Adjust width to leave space for the button */
+    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
-    font-size: 18px; /* Increased font size */
+    font-size: 16px; /* Font size remains unchanged */
+    box-sizing: border-box; /* Ensure the input box fits within its container */
 }
 
 #addTaskBtn {
-    padding: 20px 30px; /* Increased padding */
-    background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient color */
+    padding: 10px 15px; /* Keep padding consistent */
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 10px;
-    font-size: 18px; /* Increased font size */
-    width: 140px; /* Fixed width */
+    margin-left: 10px; /* Space between input and button */
+    font-size: 16px; /* Font size remains unchanged */
+    width: 100px; /* Reduced width */
     transition: background 0.3s ease;
 }
 
 #addTaskBtn:hover {
-    background: linear-gradient(135deg, #feb47b, #ff7e5f); /* Inverted gradient on hover */
-}
-.task-party-wrapper {
-    font-size: 26px; /* Increase font size for larger emoji */
-    margin-left: 10px;
+    background: linear-gradient(135deg, #feb47b, #ff7e5f);
 }
 
 .tasks-container {
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 800px; /* Increased max-width */
     margin-bottom: 20px;
-    display: none; /* Hidden by default */
+    background: rgba(255, 255, 255, 0.15); /* Slightly transparent background */
+    display: none; /* Default to hidden */
 }
 
 #taskList {
@@ -82,16 +84,18 @@ body {
 
 .task {
     display: flex;
-    align-items: center;
+    flex-direction: row; /* Default row layout for tasks */
+    align-items: center; /* Align items vertically centered */
     padding: 15px;
     font-size: 16px;
     position: relative;
     transition: opacity 0.5s ease, transform 0.5s ease;
     opacity: 1;
-    border: 1px solid #ddd; /* Border around each task */
-    border-radius: 8px; /* Rounded corners for the box */
-    background-color: #fff; /* White background for each task */
-    margin-bottom: 10px; /* Space between tasks */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    justify-content: space-between; /* Ensure space between elements */
 }
 
 .task.fade-out {
@@ -101,27 +105,22 @@ body {
 }
 
 .task.completed .task-text {
-    text-decoration: line-through; /* Strikes through text only */
-    color: #6c757d; /* Gray color for struck-through text */
-}
-
-.task.completed .task-text::after {
-    content: ''; /* Party popper emoji */
-    margin-left: 10px; /* Space between text and emoji */
-    font-size: 24px; /* Adjust size of the emoji */
+    text-decoration: line-through;
+    color: #6c757d;
 }
 
 .task-checkbox {
-    margin-right: 15px;
-    width: 25px;
-    height: 25px;
-    border-radius: 4px; /* Changed to a square shape with rounded corners */
+    margin-right: 10px; /* Space between checkbox and task text */
+    width: 20px; /* Reduced width */
+    height: 20px; /* Height remains unchanged */
+    border-radius: 4px;
     appearance: none;
     background-color: #fff;
     border: 2px solid #007bff;
     cursor: pointer;
-    position: relative;
-    outline: none; /* Removes default focus outline */
+    outline: none;
+    position: relative; /* Ensure ::before is positioned relative to checkbox */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
 }
 
 .task-checkbox:checked {
@@ -130,25 +129,33 @@ body {
 }
 
 .task-checkbox:checked::before {
-    content: '✔'; /* Unicode tick mark */
+    content: '✔';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 16px;
+    font-size: 14px; /* Reduced font size */
     color: white;
+}
+
+.task-text {
+    flex-grow: 1; /* Allow task text to grow and fill available space */
+    margin-right: 10px; /* Space between task text and buttons */
 }
 
 .task-buttons {
     display: flex;
-    gap: 15px;
-    margin-left: auto;
+    gap: 0; /* No gap between buttons */
+    margin-left: auto; /* Push buttons to the right */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
 }
 
 .task-buttons i {
     cursor: pointer;
     color: #007bff;
     transition: color 0.3s ease;
+    font-size: 16px; /* Font size remains unchanged */
+    padding: 0 8px; /* Add padding for clickable area */
 }
 
 .task-buttons i:hover {
@@ -156,58 +163,100 @@ body {
 }
 
 .filter-container-box {
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 800px; /* Increased max-width */
+    padding: 10px;
+    border-radius: 20px;
+    width: 100%; /* Use full width of the container */
+    max-width: 600px; /* Optional: Set a max width */
     text-align: center;
     margin-bottom: 20px;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.15); /* Slightly transparent background */
+    
 }
 
 .filter-container {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    flex-direction: row;
+     /* Space out buttons evenly */
+    gap:10px;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Wrap buttons on smaller screens */
 }
 
 .filter-btn {
-    padding: 15px 20px;
-    border: none;
-    background: linear-gradient(135deg, #ff7e5f, #feb47b); 
+    padding: 10px; /* Uniform padding for buttons */
+    border: 1px solid transparent; /* Set border with color transparent */
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
     color: white;
     cursor: pointer;
     text-align: center;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 12px; /* Decrease border radius */
+    font-size: 14px; /* Decreased font size */
+    width: 100%; /* Make the button take full width */
+    max-width: 100px; /* Restrict the max-width */
+    height: auto; /* Allow height to adjust automatically */
     transition: background 0.3s ease, color 0.3s ease;
+    word-wrap: break-word; /* Break long words to prevent overflow */
+    white-space: normal; /* Allow text to wrap */
 }
 
 .filter-btn.active {
-    background: linear-gradient(135deg, #ff7e5f, #feb47b); 
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
     color: white;
 }
 
 .filter-btn:hover {
-    background: linear-gradient(135deg, #feb47b, #ff7e5f); 
+    background: linear-gradient(135deg, #feb47b, #ff7e5f);
     color: white;
 }
 
-@media (max-width: 480px) {
-    .input-group, .filter-container {
-        flex-direction: column;
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 0 10px;
     }
 
-    .filter-btn {
-        margin-bottom: 5px;
+    .input-group {
+        flex-direction: column; /* Stack input and button vertically on small screens */
     }
 
-    .filter-btn:last-child {
-        margin-bottom: 0;
+    .input-group-box {
+        padding: 15px; /* Reduce padding on smaller screens for better fit */
+    }
+
+    #taskInput {
+        width: 100%; /* Input box takes full width */
+        margin-bottom: 10px; /* Space between input and button on small screens */
     }
 
     #addTaskBtn {
-        margin-left: 0;
-        margin-top: 10px;
+        width: 100%; /* Button takes full width */
+        margin-left: 0; /* Remove left margin */
+        padding: 10px 15px; /* Adjust padding for consistency */
+    }
+
+    .task {
+        flex-direction: row; /* Maintain row layout on small screens */
+        align-items: center; /* Align items in the center */
+        text-align: left; /* Align task text to the left */
+        justify-content: space-between; /* Ensure space between elements */
+    }
+
+    .task-buttons {
+        gap: 0; /* No gap between buttons on small screens */
+        margin-left: auto; /* Keep buttons aligned to the right */
+        flex-direction: row; /* Keep buttons in a row */
+        justify-content: flex-end; /* Align buttons to the right */
+        flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+
+    .filter-container {
+        flex-direction: row; /* Ensure horizontal layout */
+        gap: 10px; /* Maintain 10px gap between filter buttons */
+        flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    }
+
+    .filter-btn {
+        width: calc(33.33% - 10px); /* Allow buttons to fit within the container */
+        max-width: none; /* Remove the max-width restriction */
     }
 }
