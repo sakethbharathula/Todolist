@@ -43,26 +43,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateTasksVisibility() {
-        tasksContainer.style.display = taskList.children.length > 0 ? 'block' : 'none';
+        const hasTasks = taskList.children.length > 0;
+        tasksContainer.style.display = hasTasks ? 'block' : 'none';
     }
 
     function updateFilterVisibility(filter) {
         const tasks = Array.from(taskList.children);
 
+        if (tasks.length === 0) {
+            tasksContainer.style.display = 'none';
+            return;
+        }
+
+        let anyVisible = false;
         tasks.forEach(task => {
             switch (filter) {
                 case 'all':
                     task.style.display = 'flex';
+                    anyVisible = true;
                     break;
                 case 'completed':
-                    task.style.display = task.classList.contains('completed') ? 'flex' : 'none';
+                    if (task.classList.contains('completed')) {
+                        task.style.display = 'flex';
+                        anyVisible = true;
+                    } else {
+                        task.style.display = 'none';
+                    }
                     break;
                 case 'pending':
-                    task.style.display = !task.classList.contains('completed') ? 'flex' : 'none';
+                    if (!task.classList.contains('completed')) {
+                        task.style.display = 'flex';
+                        anyVisible = true;
+                    } else {
+                        task.style.display = 'none';
+                    }
                     break;
             }
         });
-        updateTasksVisibility();
+
+        tasksContainer.style.display = anyVisible ? 'block' : 'none';
     }
 
     // Add a new task
